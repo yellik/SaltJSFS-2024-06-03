@@ -36,15 +36,20 @@ app.get('/api/v1/students/:id', (req, res) => {
 });
 
 //post a new student
-app.post('/api/vi/students/', (req, res) => {
+app.post('/api/v1/students', (req, res) => {
 
     const {name, hobbies} = req.body;
 
     const id = v4();
 
-    const newStudent = 
-})
-const PORT = process.env.PORT || 5001;
+    const newStudent = {id, name, hobbies}
 
+    students.push(newStudent)
+
+    res.status(201).json({success: true, statusCode: 201, items: 1, data: newStudent})
+
+});
+
+const PORT = process.env.PORT || 5001;
 app.listen((PORT), () => console.log(`Server is running on port ${PORT}`));
 
