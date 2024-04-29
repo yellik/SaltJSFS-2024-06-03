@@ -70,4 +70,26 @@ router.route('/id')
             );
             return
         }
+        student.name = reqbody.name ?? student.name;
+        student.hobbies = req.body.hobbies ?? student.hobbies;
+
+        res.status(204).end();
     })
+    .delete((req, res, () => {
+        const id = req.params.id;
+        const student = students.find((s) => s.id === id);
+
+        if(!student){
+            res.status(404).json(
+                new ResponseModel({
+                    statusCode: 404,
+                    error: `Could not delete the student as we didn't find a student with the id ${id}`
+                })
+            );
+            return
+        }
+
+        students.splice(students.indexOf(student), 1);
+
+        res.status(204).end();
+    }))
