@@ -25,7 +25,7 @@ router.route('/id')
     .get((req, res) => {
         const id = req.params.id;
         const student = students.find((s) => s.id === id);
-
+        // if no student with ID found, return stat code 404 && error 
         if(!student) {
             res.status(404).json(
                 new ResponseModel({
@@ -35,12 +35,39 @@ router.route('/id')
             );
             return
         }
-    });
+        res.status(200).json(new ResponseModel({ statusCode: 200, data: student}))
+    })
+    .put((req, res) => {
+        const id = req.params.id
+        const student = students.find((s) => s.id === id);
 
-router.route('/:id')
-    .get((req, res) => {
-        //assign id
+        if(!student) {
+            res.status(404).json(
+                new ResponseModel({
+                    statusCode: 404,
+                    error: `Could not find student with the id ${id}`
+                })
+            );
+            return 
+        }
+
+        //add new student to the server 
+        student.name = req.body.name ?? student.name;
+        student.hobbies = req.body.hobbies ?? student.hobbies;
+
+        res.status(204).end();
+    })
+    .patch((req, res) => {
         const id = req.params.id;
-        //search student from id
-        const student = students.find((s) => s.id === id)
+        const student = student.find((s) => s.id === id);
+
+        if(!student) {
+            res.status(404). json(
+                new ResponseModel({
+                    statusCode: 404,
+                    error: `Could not find the student with the id ${id}`
+                })
+            );
+            return
+        }
     })
